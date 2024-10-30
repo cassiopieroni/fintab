@@ -1,17 +1,22 @@
-// src/components/TransactionForm.tsx
 import React, { useState } from 'react';
 
-const TransactionForm: React.FC = () => {
+interface TransactionFormProps {
+  onAddTransaction: (description: string, amount: number) => void;
+}
+
+const TransactionForm: React.FC<TransactionFormProps> = ({ onAddTransaction }) => {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState<number | ''>('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log({ description, amount });
+    if (description && amount !== '') {
+      onAddTransaction(description, Number(amount));
 
-    setDescription('');
-    setAmount('');
+      setDescription('');
+      setAmount('');
+    }
   };
 
   return (
