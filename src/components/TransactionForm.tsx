@@ -6,16 +6,16 @@ interface TransactionFormProps {
 
 const TransactionForm: React.FC<TransactionFormProps> = ({ onAddTransaction }) => {
   const [description, setDescription] = useState('');
-  const [amount, setAmount] = useState<number | ''>('');
+  const [amount, setAmount] = useState<number>(0);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (description && amount !== '') {
-      onAddTransaction(description, Number(amount));
+    if (description && amount) {
+      onAddTransaction(description, amount);
 
       setDescription('');
-      setAmount('');
+      setAmount(0);
     }
   };
 
@@ -29,6 +29,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ onAddTransaction }) =
         onChange={(e) => setDescription(e.target.value)}
         placeholder="Descrição"
         className="border rounded p-2 mb-2 w-full"
+        required
       />
 
       <input
@@ -37,6 +38,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ onAddTransaction }) =
         onChange={(e) => setAmount(Number(e.target.value))}
         placeholder="Valor"
         className="border rounded p-2 mb-2 w-full"
+        required
       />
 
       <button type="submit" className="bg-blue-500 text-white rounded p-2">
