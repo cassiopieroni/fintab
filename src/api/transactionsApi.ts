@@ -1,8 +1,11 @@
-export type Transaction = {
-  id: number;
-  description: string;
-  amount: number;
-};
+import { Transaction } from "../interfaces/transaction";
+
+
+export type TransactionResponse = {
+  transactions: Transaction[];
+  currPage: number;
+  totalPages: number;
+}
 
 const defaultTransactionsMock: Transaction[] = [
   { id: 1, description: 'Aluguel', amount: -1200 },
@@ -10,10 +13,23 @@ const defaultTransactionsMock: Transaction[] = [
   { id: 3, description: 'Mercado', amount: -400 },
 ]
 
-export const fetchTransactions = async (): Promise<Transaction[]> => {
+export const fetchTransactions = async (pageToFetch: number = 1): Promise<TransactionResponse> => {
+  const PAGE_SIZE = 2;
+  const FIRST_PAGE = 0;
+  
   return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(defaultTransactionsMock);
+    setTimeout(() => {      
+      const pageIndex = pageToFetch <= 0 ? FIRST_PAGE : (pageToFetch - 1);
+      const startIndex = pageIndex * PAGE_SIZE;
+      const endIndex = startIndex + PAGE_SIZE;
+
+      const data = defaultTransactionsMock.slice(startIndex, endIndex);
+
+      resolve({
+        transactions: data,
+        currPage: pageIndex,
+        totalPages: Math.ceil(defaultTransactionsMock.length / PAGE_SIZE),
+      });
     }, 1000);
   });
 };

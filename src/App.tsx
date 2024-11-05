@@ -1,66 +1,43 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import React from 'react';
-import { addTransaction, fetchTransactions, removeTransaction, Transaction } from './api/transactionsApi';
+import React, { useState } from 'react';
 import TransactionForm from './components/TransactionForm';
+import { useTransactionsQuery } from './hooks/useTransactionsQuery';
+import TransactionList from './components/TransactionList';
 
 
 const App: React.FC = () => {
-  const queryClient = useQueryClient();
+  const [currPage, setCurrPage] = useState(1);
 
-  const { data: transactions, isFetching, error: getTransactionsError, } = useQuery<Transaction[]>({
-    queryKey: ['transactions'],
-    queryFn: fetchTransactions,
-  });
+  const { data, isPending, isFetching, error } = useTransactionsQuery(currPage);
 
-  const { mutate: addNewTransactionMutate, error: addTransactionError, isPending: isAddingTransaction } = useMutation({
-    mutationFn: addTransaction,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['transactions'] });
-    },
-  });
+  const handleOnChangePage = (page: number) => {
+    const TOTAL_PAGES = data?.totalPages || 0;
 
-  const { mutate: removeTransactionMutate, error: removeTransactionError, isPending: isRemovingTransaction } = useMutation({
-    mutationFn: removeTransaction,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['transactions'] });
-    },
-  });
+    if (page < 1 || page > TOTAL_PAGES) {
+      return;
+    }
 
-  const handleAddTransaction = (description: string, amount: number) => {
-    addNewTransactionMutate({ description, amount });
-  };
-
-  const handleDeleteTransaction = (id: number) => {
-    removeTransactionMutate(id);
-  };
-
-  const isLoading = isFetching || isAddingTransaction || isRemovingTransaction;
-  const hasError = getTransactionsError || addTransactionError || removeTransactionError;
-
-  if (isLoading) return <div>Carregando...</div>;
-  if (hasError) return <div>Ocorreu um erro</div>;
+    setCurrPage(page);
+  }
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Gerenciador de Transações</h1>
 
-      <TransactionForm onAddTransaction={handleAddTransaction} />
+      {!isPending && <TransactionForm />}
 
-      <ul className="mt-4">
-        {(transactions ?? []).map((transaction) => (
-          <li key={transaction.id} className="p-2 border-b">
-            <span>{transaction.description}</span>
-            <span className="ml-4">${transaction.amount}</span>
+      {isPending && <div> Carregando as transações...</div>}
 
-            <button
-              className="bg-red-400 text-white rounded p-2 ml-5"
-              onClick={() => handleDeleteTransaction(transaction.id)}
-            >
-              Remover
-            </button>
-          </li>
-        ))}
-      </ul>
+      {error && <div>Ocorreu um erro ao buscar as transações. Por favor, tente novamente.</div>}
+
+      {data && (
+        <TransactionList
+          transactions={data.transactions}
+          onChangePage={handleOnChangePage}
+          currPage={currPage}
+          isFetchingTransactions={isFetching}
+          totalPages={data.totalPages}
+        />
+      )}
     </div>
   );
 };
