@@ -1,6 +1,6 @@
 import React from 'react';
-import { useDeleteTransactionMutate } from '../hooks/useDeleteTransactionMutate';
-import { Transaction } from '../interfaces/transaction';
+import { useDeleteTransactionMutate } from '../../hooks/transactions/useDeleteTransactionMutate';
+import { Transaction } from '../../interfaces/transactions/transaction';
 
 interface Props {
   transactions: Transaction[];

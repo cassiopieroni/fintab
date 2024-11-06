@@ -1,5 +1,4 @@
-import { Transaction } from "../interfaces/transaction";
-
+import { Transaction } from "../../interfaces/transactions/transaction";
 
 export type TransactionResponse = {
   transactions: Transaction[];

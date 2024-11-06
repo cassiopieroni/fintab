@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAddTransactionMutate } from '../hooks/useAddTransactionMutate';
+import { useAddTransactionMutate } from '../../hooks/transactions/useAddTransactionMutate';
 
 const TransactionForm: React.FC = () => {
   const [description, setDescription] = useState('');

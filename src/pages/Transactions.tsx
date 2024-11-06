@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import TransactionForm from './components/TransactionForm';
-import { useTransactionsQuery } from './hooks/useTransactionsQuery';
-import TransactionList from './components/TransactionList';
-
+import TransactionForm from '../components/transactions/TransactionForm';
+import { useTransactionsQuery } from '../hooks/transactions/useTransactionsQuery';
+import TransactionList from '../components/transactions/TransactionList';
 
 const App: React.FC = () => {
   const [currPage, setCurrPage] = useState(1);
