@@ -5,39 +5,32 @@ import { useNavigate } from 'react-router-dom';
 const Login: React.FC = () => {
   const navigate = useNavigate();
 
-  const { login } = useAuth();
+  const { loginMutation } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
 
-    try {
-      await login({ username, password });
-      setError('');
-      navigate('/transactions');
-    } catch {
-      setError('Erro ao fazer login');
-    } finally {
-      setIsLoading(false);
-    }
+    await loginMutation.mutateAsync({ username, password });
+    navigate('/transactions');
   };
+
+  const { error, isPending } = loginMutation;
 
   return (
     <div className="max-w-sm mx-auto">
       <h2 className="text-2xl font-bold mb-4">Login</h2>
 
       <form onSubmit={handleSubmit}>
-        {error && <p className="text-red-500">{error}</p>}
-        {isLoading && <p>Carregando...</p>}
+        {error && <p className="text-red-500">{error.message || 'Erro ao fazer login'}</p>}
+
+        {isPending && <p>Carregando...</p>}
 
         <div className="mb-4">
           <label className="block mb-2">Usuário</label>
           <input
-            disabled={isLoading}
+            disabled={isPending}
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -48,7 +41,7 @@ const Login: React.FC = () => {
         <div className="mb-4">
           <label className="block mb-2">Senha</label>
           <input
-            disabled={isLoading}
+            disabled={isPending}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -59,7 +52,7 @@ const Login: React.FC = () => {
         <button
           type="submit"
           className="bg-blue-600 text-white p-2 w-full"
-          disabled={isLoading}
+          disabled={isPending}
         >
           Entrar
         </button>
