@@ -19,7 +19,16 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    // vitest
+    "types": ["vitest/globals", "node"],
+
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "test-utils": ["./test-utils"]
+    }
   },
-  "include": ["src"]
+  "include": ["src", "tests"]
 }
