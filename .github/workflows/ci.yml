@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
     branches:
-      - main
+      - '**'
 
 jobs:
   build:
@@ -36,8 +36,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
-        run: npm run build
-
       - name: Run Lint
         run: npm run lint
+
+      - name: Run Tests
+        run: npm run test
+
+      - name: Build project
+        run: npm run build
