@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../hooks/auth/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { AplicationRoutes } from '@/routes/routes.enum';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     await loginMutation.mutateAsync({ username, password });
-    navigate('/transactions');
+    navigate(AplicationRoutes.TRANSACTIONS);
   };
 
   const { error, isPending } = loginMutation;

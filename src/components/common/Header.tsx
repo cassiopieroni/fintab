@@ -3,20 +3,21 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/auth/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { Roles } from '../../interfaces/auth/Roles';
+import { AplicationRoutes } from '@/routes/routes.enum';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const { isAuthenticated, logout, role } = useAuth();
 
   const links = [
-    { to: '/', label: 'Home' },
-    { to: '/transactions', label: 'Transações', isPrivate: true },
-    { to: '/admin', label: 'Admin', isPrivate: true, roles: [Roles.ADMIN] },
+    { to: AplicationRoutes.HOME, label: 'Home' },
+    { to: AplicationRoutes.TRANSACTIONS, label: 'Transações', isPrivate: true },
+    { to: AplicationRoutes.ADMIN, label: 'Admin', isPrivate: true, roles: [Roles.ADMIN] },
   ];
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate(AplicationRoutes.HOME);
   };
 
   const renderLinks = () => links.map(link => {
@@ -35,7 +36,7 @@ const Header: React.FC = () => {
     <header className="bg-blue-600 text-white p-4">
       <nav className="container mx-auto flex justify-between items-center">
         <h1 className="text-xl font-bold">
-          <Link to="/">Transações App</Link>
+          <Link to={AplicationRoutes.HOME}>Transações App</Link>
         </h1>
 
         <div className='flex justify-between'>
@@ -49,7 +50,7 @@ const Header: React.FC = () => {
                 Logout
               </button>
             ) : (
-              <Link to='/login' className="mx-2 hover:underline">
+              <Link to={AplicationRoutes.LOGIN} className="mx-2 hover:underline">
                 Login
               </Link>
             )}
