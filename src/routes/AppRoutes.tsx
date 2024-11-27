@@ -8,16 +8,17 @@ import Layout from '../components/common/Layout';
 import { Roles } from '../interfaces/auth/Roles';
 import Admin from '../pages/Admin';
 import Unauthorized from '../pages/Unauthorized';
+import { AplicationRoutes } from './routes.enum';
 
 const PrivateRoute: React.FC<{ roles?: Roles[] }> = ({ roles }) => {
   const { isAuthenticated, role } = useAuth();
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to={AplicationRoutes.LOGIN} />;
   }
 
   if (roles && (!role || !roles.includes(role))) {
-    return <Navigate to="/unauthorized" />;
+    return <Navigate to={AplicationRoutes.UNAUTHORIZED} />;
   }
 
   return <Outlet />;
@@ -25,20 +26,20 @@ const PrivateRoute: React.FC<{ roles?: Roles[] }> = ({ roles }) => {
 
 const AppRoutes: React.FC = () => {
   return (
-    <Router>
+    <Router basename='/fintab'>
       <Routes>
-        <Route path="/" element={<Layout><Home /></Layout>} />
+        <Route path={AplicationRoutes.HOME} element={<Layout><Home /></Layout>} />
 
-        <Route path="/login" element={<Layout><Login /></Layout>} />
+        <Route path={AplicationRoutes.LOGIN} element={<Layout><Login /></Layout>} />
 
-        <Route path="/unauthorized" element={<Layout><Unauthorized /></Layout>} />
+        <Route path={AplicationRoutes.UNAUTHORIZED} element={<Layout><Unauthorized /></Layout>} />
 
         <Route element={<PrivateRoute />}>
-          <Route path="/transactions" element={<Layout><Transactions /></Layout>} />
+          <Route path={AplicationRoutes.TRANSACTIONS} element={<Layout><Transactions /></Layout>} />
         </Route>
 
         <Route element={<PrivateRoute roles={[Roles.ADMIN]} />}>
-          <Route path="/admin" element={<Layout><Admin /></Layout>} />
+          <Route path={AplicationRoutes.ADMIN} element={<Layout><Admin /></Layout>} />
         </Route>
       </Routes>
     </Router>

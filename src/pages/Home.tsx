@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../hooks/auth/useAuth';
+import { useAuth } from '@/hooks/auth/useAuth';
+import { AplicationRoutes } from '@/routes/routes.enum';
 
 const Home: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -10,7 +11,7 @@ const Home: React.FC = () => {
       <p className="mb-4">Esta é a página inicial. Aqui você encontra informações públicas sobre o aplicativo.</p>
 
       {!isAuthenticated && (
-        <Link to="/login" className="text-blue-500 hover:underline">
+        <Link to={AplicationRoutes.LOGIN} className="text-blue-500 hover:underline">
           Faça login para acessar suas transações
         </Link>
       )}
