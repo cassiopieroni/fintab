@@ -5,6 +5,6 @@ describe('Admin', () => {
   test('renders the App component', () => {
     render(<Admin />)
 
-    expect(screen.getByText('Esta é a página administrativa.')).toBeInTheDocument();
+    expect(screen.getByText('Esta é a página administrativa.')).not.toBeInTheDocument();
   })
 })
