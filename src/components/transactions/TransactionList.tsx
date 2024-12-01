@@ -30,46 +30,50 @@ const TransactionList: React.FC<Props> = ({
   const currPageLabel = `${currPage}/${totalPages || ''}`;
 
   return (
-    <>
-      <ul className="mt-4">
+    <div className="mt-lg max-w-5xl flex flex-col justify-center mx-auto">
+      <ul className="w-full">
         {transactions?.map((transaction) => (
-          <li key={transaction.id} className="p-2 border-b">
+          <li key={transaction.id} className={`flex p-md px-md border-b  items-center justify-between`}>
             <span>{transaction.description}</span>
-            <span className="ml-4">${transaction.amount}</span>
+            <div>
+              <span className="ml-4">${transaction.amount}</span>
 
-            <button
-              className="bg-red-400 text-white rounded p-2 ml-5"
-              onClick={() => handleDeleteTransaction(transaction.id)}
-              disabled={isPendingDelete}
-            >
-              {(isPendingDelete && removedTrasactionId === transaction.id) ? 'Removendo...' : 'Remover'}
-            </button>
+              <button
+                className={`${(isPendingDelete || isFetchingTransactions) ? 'text-gray-500' : 'text-danger'} ml-md min-w-32`}
+                onClick={() => handleDeleteTransaction(transaction.id)}
+                disabled={isPendingDelete || isFetchingTransactions}
+              >
+                {isPendingDelete && removedTrasactionId === transaction.id ? 'Removendo...' : 'Remover'}
+              </button>
+            </div>
           </li>
         ))}
       </ul>
 
-      <div className="p-2 border-b mb-4">
+      <div className="p-md border-b flex items-center justify-between">
         <span>Current Page: {currPageLabel}</span>
 
-        <button
-          className="bg-red-400 text-white rounded p-2 ml-5"
-          onClick={() => onChangePage(currPage - 1)}
-          disabled={currPage === 1 || isFetchingTransactions}
-        >
-          Página Anterior
-        </button>
+        <div>
+          <button
+            className={`${(currPage === 1 || isFetchingTransactions) ? 'text-gray-500' : 'text-primary'}`}
+            onClick={() => onChangePage(currPage - 1)}
+            disabled={currPage === 1 || isFetchingTransactions}
+          >
+            Página Anterior
+          </button>
 
-        <button
-          className="bg-red-400 text-white rounded p-2 ml-5"
-          onClick={() => onChangePage(currPage + 1)}
-          disabled={isFetchingTransactions || currPage === totalPages}
-        >
-          Próxima Página
-        </button>
+          <button
+            className={`${(isFetchingTransactions || currPage === totalPages) ? 'text-gray-500' : 'text-primary'} ml-md min-w-32`}
+            onClick={() => onChangePage(currPage + 1)}
+            disabled={isFetchingTransactions || currPage === totalPages}
+          >
+            Próxima Página
+          </button>
+        </div>
       </div>
 
-      {isFetchingTransactions && <span className='ml-2'>Atualizando as transações</span>}
-    </>
+      {(isFetchingTransactions || isPendingDelete) && <span className='mt-lg font-bold text-center'>Atualizando as transações...</span>}
+    </div>
   );
 };
 

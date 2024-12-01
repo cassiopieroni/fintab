@@ -20,44 +20,46 @@ const Login: React.FC = () => {
   const { error, isPending } = loginMutation;
 
   return (
-    <div className="max-w-sm mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Login</h2>
+    <div className='container mx-auto p-md'>
+      <div className="max-w-lg mx-auto mt-lg bg-gray-100 rounded shadow-md p-4">
+        <h2 className="text-2xl font-bold mb-4">Login</h2>
 
-      <form onSubmit={handleSubmit}>
-        {error && <p className="text-red-500">{error.message || 'Erro ao fazer login'}</p>}
+        <form onSubmit={handleSubmit}>
+          {error && <p className="text-danger">{error.message || 'Erro ao fazer login'}</p>}
 
-        {isPending && <p>Carregando...</p>}
+          {isPending && <p>Carregando...</p>}
 
-        <div className="mb-4">
-          <label className="block mb-2">Usuário</label>
-          <input
+          <div className="mb-4">
+            <label className="block mb-2">Usuário</label>
+            <input
+              disabled={isPending}
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="border p-2 w-full"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block mb-2">Senha</label>
+            <input
+              disabled={isPending}
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="border p-2 w-full"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="bg-primary text-white p-2 w-full"
             disabled={isPending}
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="border p-2 w-full"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block mb-2">Senha</label>
-          <input
-            disabled={isPending}
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border p-2 w-full"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="bg-blue-600 text-white p-2 w-full"
-          disabled={isPending}
-        >
-          Entrar
-        </button>
-      </form>
+          >
+            Entrar
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

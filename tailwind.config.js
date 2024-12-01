@@ -4,7 +4,28 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#1a73e8',
+        danger: '#e63946',
+      },
+      spacing: {
+        xs: '4px',
+        sm: '8px',
+        md: '16px',
+        lg: '32px',
+        xl: '64px',
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        mono: ['Fira Code', 'monospace'],
+      },
+      borderRadius: {
+        sm: '4px',
+        md: '8px',
+        lg: '16px',
+      },
+    },
   },
   plugins: [],
 }

@@ -20,13 +20,13 @@ const App: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Gerenciador de Transações</h1>
+      <h1 className="text-2xl font-bold mt-md mb-lg text-center">Gerenciador de Transações</h1>
 
       {!isPending && <TransactionForm />}
 
-      {isPending && <div> Carregando as transações...</div>}
+      {isPending && <div className="text-md"> Carregando as transações...</div>}
 
-      {error && <div>Ocorreu um erro ao buscar as transações. Por favor, tente novamente.</div>}
+      {error && <div className="text-md text-danger">Ocorreu um erro ao buscar as transações. Por favor, tente novamente.</div>}
 
       {data && (
         <TransactionList

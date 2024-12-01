@@ -19,9 +19,9 @@ const TransactionForm: React.FC = () => {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit} className="p-4 bg-gray-100 rounded shadow-md">
-        <h2 className="text-lg font-bold mb-2">Nova Transação</h2>
+    <div className='w-full flex justify-center'>
+      <form onSubmit={handleSubmit} className="p-md bg-gray-100 rounded shadow-md">
+        <h2 className="text-lg font-bold mb-md">Nova Transação</h2>
 
         <input
           type="text"
@@ -41,13 +41,13 @@ const TransactionForm: React.FC = () => {
           required
         />
 
-        <button type="submit" className="bg-blue-500 text-white rounded p-2" disabled={isPending}>
+        <button type="submit" className="bg-primary text-white rounded p-2 w-full mt-md" disabled={isPending}>
           {isPending ? 'Adicionando a transação...' : 'Adicionar Transação'}
         </button>
       </form>
 
       {error && <span>Ocorreu um erro ao adicionar a transação. Por favor, tente novamente.</span>}
-    </>
+    </div>
   );
 };
 

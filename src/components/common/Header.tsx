@@ -33,7 +33,7 @@ const Header: React.FC = () => {
   })
 
   return (
-    <header className="bg-blue-600 text-white p-4">
+    <header className="bg-primary text-white p-4">
       <nav className="container mx-auto flex justify-between items-center">
         <h1 className="text-xl font-bold">
           <Link to={AplicationRoutes.HOME}>Transações App</Link>
